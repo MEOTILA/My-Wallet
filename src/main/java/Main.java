@@ -41,15 +41,26 @@ public class Main {
         executor.submit(chargeTask);
         executor.submit(withdrawTask);
 
-        // Wait for all tasks to complete and then shutdown the executor
-        executor.shutdown();
-        try {
-            while (!executor.isTerminated()) {
-                // You can add additional logic here to wait for all tasks to finish
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        /*firstThread.start();
+        firstThread.join();
+
+        secondThread.start();
+        secondThread.join();
+
+        thirdThread.start();
+        thirdThread.join();*/
+
+
+        executor.close();
+//
+//        try {
+//            while (!executor.isTerminated()) {
+//                // You can add additional logic here to wait for all tasks to finish
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
 
         System.out.println("Final Wallet Balance: " + wallet.getBalance());
     }
