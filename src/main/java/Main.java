@@ -7,6 +7,9 @@ import main.java.service.TransactionService;
 import main.java.service.UserService;
 
 import java.util.Scanner;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
     final static Scanner scanner = new Scanner(System.in);
@@ -15,12 +18,59 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Welcome to WalletApp..\n\n");
-        Wallet wallet1 = new Wallet();
-        wallet1.setBalance(1000);
-        wallet1.setWalletAddress("1");
 
 
-        while (true) {
+        Wallet wallet = new Wallet();
+        wallet.setBalance(1000.0);
+
+        TransactionService transactionService = new TransactionService();
+
+        Runnable withdrawTask = () -> transactionService.withdraw(wallet, 200);
+        Runnable chargeTask = () -> transactionService.charge(wallet,100);
+
+
+        Thread firstThread = new Thread(withdrawTask);
+        Thread secondThread = new Thread(chargeTask);
+        Thread thirdThread = new Thread(withdrawTask);
+//        firstThread.start();
+//        secondThread.start();
+//        thirdThread.start();
+
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+        executor.submit(withdrawTask);
+        executor.submit(chargeTask);
+        executor.submit(withdrawTask);
+
+        // Wait for all tasks to complete and then shutdown the executor
+        executor.shutdown();
+        try {
+            while (!executor.isTerminated()) {
+                // You can add additional logic here to wait for all tasks to finish
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Final Wallet Balance: " + wallet.getBalance());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*while (true) {
             System.out.println("1.Signup");
             System.out.println("2.login");
             int userInput = scanner.nextInt();
@@ -62,5 +112,6 @@ public class Main {
 
         // TODO: Logic regarding checking user is the owner of the wallet!!!
 
-    }
+    }*/
 }
+
