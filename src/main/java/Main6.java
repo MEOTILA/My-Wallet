@@ -21,7 +21,7 @@ public class Main6 {
         Runnable withdrawTask = () -> {
             transactionService.withdraw(wallet, 200);
             try {
-                barrier.await();  // Wait for other thread to complete before proceeding
+                barrier.await();
             } catch (Exception e) {
                 Thread.currentThread().interrupt();
             }
@@ -30,7 +30,7 @@ public class Main6 {
         Runnable chargeTask = () -> {
             transactionService.charge(wallet,100);
             try {
-                barrier.await();  // Wait for other thread to complete before proceeding
+                barrier.await();
             } catch (Exception e) {
                 Thread.currentThread().interrupt();
             }
