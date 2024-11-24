@@ -24,19 +24,13 @@ public class Main2 {
         Runnable chargeTask = () -> transactionService.charge(wallet,100);
 
 
-        Thread firstThread = new Thread(withdrawTask);
-        Thread secondThread = new Thread(chargeTask);
-        Thread thirdThread = new Thread(withdrawTask);
-
         ExecutorService executor = Executors.newFixedThreadPool(4);
         executor.submit(withdrawTask);
         executor.submit(chargeTask);
         executor.submit(withdrawTask);
 
-
         executor.close();
 
-
-        System.out.println("Final Wallet Balance: " + wallet.getBalance());
+        System.out.println("Wallet Balance: " + wallet.getBalance());
     }
 }

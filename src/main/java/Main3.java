@@ -5,8 +5,7 @@ import main.java.service.TransactionService;
 import main.java.service.UserService;
 
 import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
 
 public class Main3 {
     final static Scanner scanner = new Scanner(System.in);
@@ -39,6 +38,6 @@ public class Main3 {
         thirdThread.join();
 
 
-        System.out.println("Final Wallet Balance: " + wallet.getBalance());
+        System.out.println("Wallet Balance: " + wallet.getBalance());
     }
 }

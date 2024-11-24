@@ -32,23 +32,11 @@ public class Main {
         Thread firstThread = new Thread(withdrawTask);
         Thread secondThread = new Thread(chargeTask);
         Thread thirdThread = new Thread(withdrawTask);
-//        firstThread.start();
-//        secondThread.start();
-//        thirdThread.start();
 
         ExecutorService executor = Executors.newFixedThreadPool(4);
         executor.submit(withdrawTask);
         executor.submit(chargeTask);
         executor.submit(withdrawTask);
-
-        /*firstThread.start();
-        firstThread.join();
-
-        secondThread.start();
-        secondThread.join();
-
-        thirdThread.start();
-        thirdThread.join();*/
 
 
         executor.close();
@@ -62,7 +50,7 @@ public class Main {
 //        }
 
 
-        System.out.println("Final Wallet Balance: " + wallet.getBalance());
+        System.out.println("Wallet Balance: " + wallet.getBalance());
     }
 
 
