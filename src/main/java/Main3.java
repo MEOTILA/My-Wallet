@@ -13,6 +13,7 @@ public class Main3 {
     final static TransactionService transactionService = new TransactionService();
 
     public static void main(String[] args) throws InterruptedException {
+        //SIMPLE THREAD JOIN
 
         Wallet wallet = new Wallet();
         wallet.setBalance(1000.0);

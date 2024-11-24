@@ -14,6 +14,8 @@ public class Main2 {
     final static TransactionService transactionService = new TransactionService();
 
     public static void main(String[] args) {
+       //EXECUTOR SERVICE
+
 
         Wallet wallet = new Wallet();
         wallet.setBalance(1000.0);
@@ -24,7 +26,7 @@ public class Main2 {
         Runnable chargeTask = () -> transactionService.charge(wallet,100);
 
 
-        ExecutorService executor = Executors.newFixedThreadPool(4);
+        ExecutorService executor = Executors.newFixedThreadPool(3);
         executor.submit(withdrawTask);
         executor.submit(chargeTask);
         executor.submit(withdrawTask);

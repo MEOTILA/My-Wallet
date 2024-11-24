@@ -2,17 +2,16 @@ package main.java;
 
 import main.java.model.Wallet;
 import main.java.service.TransactionService;
-import main.java.service.UserService;
 
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class Main5 {
-    final static UserService userService = new UserService();
-    final static TransactionService transactionService = new TransactionService();
+public class Main6 {
     public static void main(String[] args) throws InterruptedException {
-        //COUNTDOWN LATCH
+        //CYCLE BARRIER
 
-        CountDownLatch latch = new CountDownLatch(1);
+        CyclicBarrier barrier = new CyclicBarrier(3);
 
         Wallet wallet = new Wallet();
         wallet.setBalance(1000.0);
@@ -21,19 +20,21 @@ public class Main5 {
 
         Runnable withdrawTask = () -> {
             transactionService.withdraw(wallet, 200);
-            latch.countDown();
+            try {
+                barrier.await();  // Wait for other thread to complete before proceeding
+            } catch (Exception e) {
+                Thread.currentThread().interrupt();
+            }
         };
 
         Runnable chargeTask = () -> {
+            transactionService.charge(wallet,100);
             try {
-                latch.await();
-                transactionService.charge(wallet, 100);
+                barrier.await();  // Wait for other thread to complete before proceeding
+            } catch (Exception e) {
+                Thread.currentThread().interrupt();
             }
-            catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
         };
-
 
         Thread withdrawThreadOne = new Thread(withdrawTask);
         Thread chargeThread = new Thread(chargeTask);
